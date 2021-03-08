@@ -83,7 +83,8 @@ class Calculator:
 
     def evaluatePostfixExp(self, postfixExpr):
         """
-        Evaluates an expression that's given in postfix notation.
+        Evaluates an expression that's given in postfix notation. This code is
+        adapted from an online tutorial (https://cutt.ly/czfwRLw).
 
         Parameters
         ----------
