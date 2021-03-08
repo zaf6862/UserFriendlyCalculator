@@ -15,19 +15,21 @@ def main():
     print(messages.welcomeMessage)
 
     while True:
-        userInput = input("Please input your expression: ")
-        if userInput == "exit" or userInput == "Exit":
-            print(messages.exitMessage)
-            break
-        elif userInput == "help" or userInput == "Help":
-            print(messages.helpMessage)
-        else:
-            userExpression = inputParser.parseInput(userInput)
-            if userExpression is None:
-                continue
-            result = calculator.evaluateExpression(userExpression)
-            print("Answer: " + str(result))
+        try:
+            userInput = input("Please input your expression: ")
+            if userInput == "exit" or userInput == "Exit":
+                print(messages.exitMessage)
+                break
+            elif userInput == "help" or userInput == "Help":
+                print(messages.helpMessage)
+            else:
+                userExpression = inputParser.parseInput(userInput)
+                if userExpression is None:
+                    continue
+                result = calculator.evaluateExpression(userExpression)
+                print("Answer: " + str(result))
 
-
+        except Exception as error:
+            pass
 if __name__ == "__main__":
     main()

@@ -114,7 +114,7 @@ class Calculator:
                 try:
                     result = self.applyOperator(operand1, operand2, token)
                 except Exception as error:
-                    print("Error: " + str(error))  # Division by zero error.
+                    print("Error: " + str(error))  # Most likely division by zero error.
                     return
                 operandStack.append(result)
         return operandStack.pop()
@@ -122,6 +122,11 @@ class Calculator:
     def evaluateExpression(self, userExpression):
         """
         Evaluates the arithmetic expression input by the user.
+        Does not currently support implicit presence of 1 and multiplication.
+        So expressions like "--2" which are actually "-1 * -2", cannot be
+        evaluated. Support for this feature can be added by changing the
+        applyOperator method. Its parameters could be relaxed to have more than
+        one operator instead of having just one operator and two operands.
 
         Parameters
         ----------

@@ -127,6 +127,11 @@ class InputParser:
                     # Third character is not an operand.
                     elif inputExpression[i + 1] in "+-" and inputExpression[i + 2] not in self.operands:
                         return True
+                    # elif inputExpression[i + 1] in "+-" and inputExpression[i + 2] in self.operands:
+                    #     if i == 0 or (i >= 1 and inputExpression[i-1] not in self.operands):
+                    #         return True
+
+
             i += 1
         return False
 
@@ -304,5 +309,5 @@ class InputParser:
             return inputExpression
 
         except Exception as error:
-            print(str(error))
+            print("Error: " + str(error))
             return None
