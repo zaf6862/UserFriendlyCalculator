@@ -1,6 +1,6 @@
 class InputParser:
     """
-    A helper class used to parse the user input.
+    A helper class used to parse the user input. Assumes that the user input is in human readable (infix notation).
 
     ...
 
@@ -74,7 +74,8 @@ class InputParser:
 
     def checkForSyntaxError(self, inputExpression):
         """
-        Checks if the InputExpression has a syntax error.
+        Checks if the InputExpression has a syntax error. Assumes the 
+        input is in infix notation.
 
         Parameters
         ----------
