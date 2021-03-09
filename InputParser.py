@@ -127,6 +127,10 @@ class InputParser:
                     # Third character is not an operand.
                     elif inputExpression[i + 1] in "+-" and inputExpression[i + 2] not in self.operands:
                         return True
+                    # Two operators next to each other. Second one is either + or -.
+                    # Third character is an operand but the first operator is at the start of the
+                    # expression or is not preceded by an operand. e.g *+2 or 1 * * + 2. Both these
+                    # expressions have the wrong syntax.
                     elif inputExpression[i + 1] in "+-" and inputExpression[i + 2] in self.operands:
                         if i == 0 or (i >= 1 and inputExpression[i - 1] not in self.operands):
                             return True
