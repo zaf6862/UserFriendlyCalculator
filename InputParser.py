@@ -127,10 +127,9 @@ class InputParser:
                     # Third character is not an operand.
                     elif inputExpression[i + 1] in "+-" and inputExpression[i + 2] not in self.operands:
                         return True
-                    # elif inputExpression[i + 1] in "+-" and inputExpression[i + 2] in self.operands:
-                    #     if i == 0 or (i >= 1 and inputExpression[i-1] not in self.operands):
-                    #         return True
-
+                    elif inputExpression[i + 1] in "+-" and inputExpression[i + 2] in self.operands:
+                        if i == 0 or (i >= 1 and inputExpression[i - 1] not in self.operands):
+                            return True
 
             i += 1
         return False
@@ -138,9 +137,10 @@ class InputParser:
     def prettifyInputExpression(self, inputExpression):
         """
         Prepares the input for conversion to postfix notation. Assumes input is valid
-        with no syntax error. Works in two steps 1) Split up whole expression into
+        with no syntax error. Works in three steps 1) Split up whole expression into
         operators and operands 2) Join + or - with operands to make signed
-        numbers (if any).
+        numbers (if any) 3) Concatenate the whole expression with each operator and operand
+        separated by a whitespace.
 
         Parameters
         ----------
@@ -182,11 +182,12 @@ class InputParser:
             i = 1
         else:
             i = 0
-
         while i < len(splitUpInputExpression):
             # If current token is + or - and it succeeds an operator
             # then the number that follows is signed.
-            if splitUpInputExpression[i] in "+-" and splitUpInputExpression[i - 1] in self.operators:
+            if splitUpInputExpression[i] in "+-" and \
+                    splitUpInputExpression[i-1] in self.operators \
+                    and self.isOperand(splitUpInputExpression[i+1]):
                 prettyInputExpression += splitUpInputExpression[i]
                 prettyInputExpression += splitUpInputExpression[i + 1]
                 prettyInputExpression += " "
@@ -229,7 +230,14 @@ class InputParser:
         """
         Converts the inputExpression from infix notation to postfix notation using
         the shunting yard algorithm. This method is adapted from an online tutorial
-        (https://cutt.ly/czfwRLw).
+        (https://cutt.ly/czfwRLw).The online version of this code was very basic and
+        I added the following things myself:
+        1) Support for decimal numbers.
+        2) Support for signed numbers.
+        3) Support for parentheses.
+        4) Error handling and robustness in face of crashes (e.g. handling division by zero errors).
+        5) Changed the stack to use the standard python list data structure rather than a
+         proprietary stack data structure that was originally used.
 
         Parameters
         ----------
@@ -245,7 +253,7 @@ class InputParser:
 
         operatorStack = []
         postfixList = []
-        tokenList = infixExpression.split(" ")  # prettified expression helps here.
+        tokenList = infixExpression.split(" ")  # prettified expression comes in handy here.
 
         for token in tokenList:
             # Token is operand. Push it to the postfix list.
@@ -296,8 +304,8 @@ class InputParser:
         try:
             if len(inputExpression) == 0:
                 raise ValueError("Empty expression. Please enter a valid arithmetic expression.")
-
-            inputExpression = inputExpression.split("\"")[1]
+            if "\"" in inputExpression:
+                inputExpression = inputExpression.split("\"")[1]
             if self.checkForInvalidInput(inputExpression):
                 raise ValueError("Invalid input. Please enter a valid arithmetic expression.")
             if self.checkForSyntaxError(inputExpression):

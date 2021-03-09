@@ -84,7 +84,12 @@ class Calculator:
     def evaluatePostfixExp(self, postfixExpr):
         """
         Evaluates an expression that's given in postfix notation. This code is
-        adapted from an online tutorial (https://cutt.ly/czfwRLw).
+        adapted from an online tutorial (https://cutt.ly/czfwRLw). The online version
+        of this code was very basic and I added the following things myself:
+        1) Support for decimal numbers
+        2) Error handling and robustness in face of crashes (e.g. handling division by zero errors).
+        3) Changed the stack to use the standard python list data structure rather than a proprietary
+         data structure that was originally used.
 
         Parameters
         ----------
@@ -114,7 +119,8 @@ class Calculator:
                 try:
                     result = self.applyOperator(operand1, operand2, token)
                 except Exception as error:
-                    print("Error: " + str(error))  # Most likely division by zero error.
+                    print("Invalid input. Please enter a valid arithmetic expression.")  # Most likely division by
+                    # zero error.
                     return
                 operandStack.append(result)
         return operandStack.pop()
@@ -122,7 +128,7 @@ class Calculator:
     def evaluateExpression(self, userExpression):
         """
         Evaluates the arithmetic expression input by the user.
-        Does not currently support implicit presence of 1 and multiplication.
+        Does not currently support unary arithmetic operators.
         So expressions like "--2" which are actually "-1 * -2", cannot be
         evaluated. Support for this feature can be added by changing the
         applyOperator method. Its parameters could be relaxed to have more than
@@ -130,7 +136,7 @@ class Calculator:
 
         Parameters
         ----------
-        postfixExpr : str
+        userExpression : str
             The arithmetic expression input by the user in its postfix notation.
 
         Returns

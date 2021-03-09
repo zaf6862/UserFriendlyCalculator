@@ -34,6 +34,8 @@ def testPrettifyInputExpression():
     assert inputParser.prettifyInputExpression("-5+-8--11*2") == "-5 + -8 - -11 * 2", "Did not prettify correctly."
     assert inputParser.prettifyInputExpression("-.32       /.5") == "-.32 / .5", "Did not prettify correctly."
     assert inputParser.prettifyInputExpression("(4-2)*3.5") == "( 4 - 2 ) * 3.5", "Did not prettify correctly."
+    assert inputParser.prettifyInputExpression(
+        "(1-1)+(1+1)*(2)-3") == "( 1 - 1 ) + ( 1 + 1 ) * ( 2 ) - 3", "Did not prettify correctly.."
 
 
 def testIsOperand():
@@ -65,10 +67,8 @@ def testParseInput():
     assert inputParser.parseInput("calculate \"4*5/2\"") == "4 5 * 2 /", "Should be correct."
     assert inputParser.parseInput("calculate \"-5+-8--11*2\"") == "-5 -8 + -11 2 * -", "Should be correct."
     assert inputParser.parseInput("calculate \"-.32       /.5\"") == "-.32 .5 /", "Should be correct."
-    assert inputParser.parseInput("calculate \"2+-+-4\"") == None, "Should be None."
-    assert inputParser.parseInput("calculate \"19 + cinnamon\"") == None, "Should be None."
-
-
+    assert inputParser.parseInput("calculate \"2+-+-4\"") is None, "Should be None."
+    assert inputParser.parseInput("calculate \"19 + cinnamon\"") is None, "Should be None."
 
 
 def main():

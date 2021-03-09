@@ -30,6 +30,7 @@ def main():
                 print("Answer: " + str(result))
 
         except Exception as error:
+            print( "error: " + str(error))
             pass
 if __name__ == "__main__":
     main()
